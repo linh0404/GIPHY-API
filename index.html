@@ -51,11 +51,15 @@
                 var gameDiv = $("<div>");
                 var p = $("<p>").text("Rating: " + results[j].rating);
                 var gameImage = $("<img>");
-                gameImage.attr("src", results[j].images.fixed_height.url);
-
+                gameImage.attr("src", results[j].images.fixed_height_still.url);
+                gameImage.attr("data-still", results[j].images.fixed_height_still.url);
+                gameImage.attr("data-animate", results[j].images.fixed_height.url);
+                gameImage.attr("data-state", "still");
+                gameImage.attr("class", "gif");
                 gameDiv.append(p);
                 gameDiv.append(gameImage);
-                
+                console.log(response);
+                console.log(gameImage);
                 $("#gifs-appear-here").prepend(gameDiv);
             }
           })}
@@ -67,7 +71,7 @@
                 a.addClass("games");
                 a.attr("data-name", topics[i]);
                 a.text(topics[i]);
-                $("#buttons-view").append(a);
+                $("#buttons-view").append(a);i
             }
         }
 
@@ -80,6 +84,17 @@
 
         $(document).on("click",".games", alertGame);
         renderButtons();
+
+        $(".gif").on("click", function() {
+            var state = $(this).attr("data-state");
+            if (state === "still") {
+                $(this).attr("src",$(this).attr("data-animate"));
+                $(this).attr("data-state","animate");
+            } else {
+                $(this).attr("src",$(this).attr("data-still"));
+                $(this).attr("data-state","still");
+            }
+        })
         
       </script>
     </body>
