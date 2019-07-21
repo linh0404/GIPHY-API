@@ -38,7 +38,6 @@
         function alertGame() {
             var gameName = $(this).attr("data-name");
             var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + gameName + "&api_key=Hr8s7yXGf7GrwPE3ZxZSIYEMg7sPZHZG&limit=10";
-            console.log(queryURL);
             alert(gameName);
 
           $.ajax({
@@ -47,8 +46,6 @@
           })
 
           .then(function(response) {
-            console.log(queryURL);
-            console.log(response);
             var results = response.data;
             for (var j = 0; j < results.length; j++) {
                 var gameDiv = $("<div>");
@@ -71,7 +68,6 @@
                 a.attr("data-name", topics[i]);
                 a.text(topics[i]);
                 $("#buttons-view").append(a);
-                console.log(topics[i]);
             }
         }
 
