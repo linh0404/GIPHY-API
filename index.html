@@ -2,15 +2,62 @@
 <html>
     <head lang="en">
         <meta charset="UTF-8">
-        <title>Blank Page</title>
+        <title>Video Game Search</title>
+        <!-- reset.css -->
+        <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+        <!-- jquery -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <!-- bootstrap -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <!-- style.css -->
+        <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        
-        <script type="text/javascript">
-            
-           
-            
-        </script>
+     
+      <div class="container">
+          <h1>Video Game Search</h1>
+          <br>
+          <div id="buttons-view"></div>
+          <br>
+          <br>
+          <form id="form"></form>
+          <label for="form-input">Search for Video Games</label>
+          <input type="text" id="form-input">
+          <br>
+          <input id="add-game" type="submit" value="Search">
+      </div>
+      <script type="text/javascript">
+        // initial array of games
+        var topics = ["red dead redemption", "overwatch", "call of duty", "destiny"];
 
+        // 
+        function alertGame() {
+            var game = $(this).attr("data-name");
+            alert(game);
+        }
+        
+        function renderButtons() {
+            $("#buttons-view").empty();
+            for (var i = 0; i < topics.length; i++) {
+                var a = $("<button>");
+                    a.addClass("games");
+                    a.attr("data-name", topics[i]);
+                    a.text(topics[i]);
+                    $("#buttons-view").append(a);
+            }
+        }
+
+        $("#add-game").on("click",function(event) {
+        event.preventDefault();
+        var game = $("form-input").val();
+        topics.push(game);
+        renderButtons();
+        });
+
+        $(document).on("click",".game", alertGame);
+        renderButtons();
+        
+      </script>
     </body>
 </html> 
