@@ -26,36 +26,63 @@
           <input type="text" id="form-input">
           <br>
           <input id="add-game" type="submit" value="Search">
+          <br>
+          <br>
+          <div id="gifs-appear-here"></div>
       </div>
       <script type="text/javascript">
         // initial array of games
         var topics = ["red dead redemption", "overwatch", "call of duty", "destiny"];
 
-        // 
+        // generic function to obtain the data-name
         function alertGame() {
-            var game = $(this).attr("data-name");
-            alert(game);
-        }
+            var gameName = $(this).attr("data-name");
+            var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + gameName + "&api_key=Hr8s7yXGf7GrwPE3ZxZSIYEMg7sPZHZG&limit=10";
+            console.log(queryURL);
+            alert(gameName);
+
+          $.ajax({
+            url: queryURL,
+            method: "GET"
+          })
+
+          .then(function(response) {
+            console.log(queryURL);
+            console.log(response);
+            var results = response.data;
+            for (var j = 0; j < results.length; j++) {
+                var gameDiv = $("<div>");
+                var p = $("<p>").text("Rating: " + results[j].rating);
+                var gameImage = $("<img>");
+                gameImage.attr("src", results[j].images.fixed_height.url);
+
+                gameDiv.append(p);
+                gameDiv.append(gameImage);
+                
+                $("#gifs-appear-here").prepend(gameDiv);
+            }
+          })}
         
         function renderButtons() {
             $("#buttons-view").empty();
             for (var i = 0; i < topics.length; i++) {
                 var a = $("<button>");
-                    a.addClass("games");
-                    a.attr("data-name", topics[i]);
-                    a.text(topics[i]);
-                    $("#buttons-view").append(a);
+                a.addClass("games");
+                a.attr("data-name", topics[i]);
+                a.text(topics[i]);
+                $("#buttons-view").append(a);
+                console.log(topics[i]);
             }
         }
 
         $("#add-game").on("click",function(event) {
         event.preventDefault();
-        var game = $("form-input").val();
+        var game = $("#form-input").val();
         topics.push(game);
         renderButtons();
         });
 
-        $(document).on("click",".game", alertGame);
+        $(document).on("click",".games", alertGame);
         renderButtons();
         
       </script>
