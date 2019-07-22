@@ -1,0 +1,41 @@
+function alertGame() {
+            var gameName = $(this).attr("data-name");
+            var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + gameName + "&api_key=Hr8s7yXGf7GrwPE3ZxZSIYEMg7sPZHZG&limit=10";
+
+
+            $.ajax({
+                url: queryURL,
+                method: "GET"
+            })
+            .then(function(response) {
+                var results = response.data;
+                for (var j = 0; j < results.length; j++) {
+                    var gameDiv = $("<div>");
+                    var p = $("<p>").text("Rating: " + results[j].rating);
+                    var gameImage = $("<img>");
+                    gameImage.attr("src", results[j].images.fixed_height_still.url);
+                    gameImage.attr("data-still", results[j].images.fixed_height_still.url);
+                    gameImage.attr("data-animate", results[j].images.fixed_height.url);
+                    gameImage.attr("data-state", "still");
+                    gameImage.attr("class", "gif");
+                    gameDiv.append(p);
+                    gameDiv.append(gameImage);
+                    console.log(response);
+                    console.log(gameImage);
+                    $("#gifs-appear-here").prepend(gameDiv);
+                }
+
+                $(".gif").on("click", function() {
+                    var state = $(this).attr("data-state");
+                    if (state === "still") {
+                        $(this).attr("src", $(this).attr("data-animate"));
+                        $(this).attr("data-state","animate");
+                    } else {
+                        $(this).attr("src", $(this).attr("data-still"));
+                        $(this).attr("data-state","still");
+                    }
+                })
+            })
+        }
+
+

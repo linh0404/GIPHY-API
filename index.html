@@ -46,6 +46,7 @@
           })
 
           .then(function(response) {
+            $('#gifs-appear-here').contents('');
             var results = response.data;
             for (var j = 0; j < results.length; j++) {
                 var gameDiv = $("<div>");
@@ -55,9 +56,12 @@
                 gameImage.attr("data-still", results[j].images.fixed_height_still.url);
                 gameImage.attr("data-animate", results[j].images.fixed_height.url);
                 gameImage.attr("data-state", "still");
-                gameImage.attr("class", "gif");
+                gameImage.attr("id", "gif");
                 gameDiv.append(p);
                 gameDiv.append(gameImage);
+                // on click needed to be called earlier
+                gameImage.on('click',toggleGifPlayState);
+
                 console.log(response);
                 console.log(gameImage);
                 $("#gifs-appear-here").prepend(gameDiv);
@@ -85,8 +89,9 @@
         $(document).on("click",".games", alertGame);
         renderButtons();
 
-        $(".gif").on("click", function() {
-            var state = $(this).attr("data-state");
+        function toggleGifPlayState(event) {
+            // target element that user clicked on
+            var state = $(event.target).attr("data-state");
             if (state === "still") {
                 $(this).attr("src", $(this).attr("data-animate"));
                 $(this).attr("data-state","animate");
@@ -94,7 +99,7 @@
                 $(this).attr("src", $(this).attr("data-still"));
                 $(this).attr("data-state","still");
             }
-        })
+        }
         
       </script>
     </body>
