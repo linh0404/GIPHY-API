@@ -9,5 +9,12 @@ body {
 .jumbotron {
     background-color: rgba(0,0,0,0.5);
     color: #ffffff;
-    text-align: center; 
+    text-align: center;
+}
+
+#gifs-appear-here {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
 }
